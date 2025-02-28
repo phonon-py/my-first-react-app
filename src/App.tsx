@@ -1,25 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useRef } from 'react';
+import TodoList from './TodoList';
+import { v4 as uuidv4 } from 'uuid';
 
-function App() {
+interface Todo {
+  id: string;
+  name: string;
+  completed: boolean;
+}
+
+const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todo[]>([
+    { id: uuidv4(), name: "Todo1", completed: false }
+    ]);
+  
+  const todoNameRef = useRef<HTMLInputElement>(null);
+  
+  const handleAddTodo = () => {
+    // タスクを追加する
+    const name = todoNameRef.current?.value || '';
+    
+    // 可読性と保守性の向上
+    const newTodo: Todo = {
+      id: uuidv4(),
+      name: name,
+      completed: false,
+    };
+
+    setTodos((prevTodos) => 
+      [...prevTodos, newTodo]
+    );
+    if (todoNameRef.current) todoNameRef.current.value = '';
+    };
+  
+  const toggleTodo = (id: string) => {
+    const newTodos = [...todos];
+    const todo = newTodos.find((todo) => todo.id === id);
+    if (todo) {
+      todo.completed = !todo.completed;
+    setTodos(newTodos);
+  };
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <TodoList todos={todos} toggleTodo={toggleTodo} />
+      <input type="text" ref={todoNameRef} />
+      <button onClick={handleAddTodo}>タスクを追加</button>
+      <button>完了したタスクの削除</button>
+      <div>残りのタスク: 0</div>
+    </>
   );
 }
 
