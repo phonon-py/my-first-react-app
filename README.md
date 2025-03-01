@@ -1,46 +1,134 @@
-# Getting Started with Create React App
+# TypeScript Todo App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+シンプルで実用的なTodoアプリケーション。TypeScriptとReactを使用して、タスク管理の基本機能を実装しています。
 
-## Available Scripts
+## プロジェクト概要
 
-In the project directory, you can run:
+このプロジェクトは、React 19とTypeScriptを使用した基本的なTodoリスト管理アプリケーションです。Pythonバックグラウンドから、フロントエンド開発とTypeScriptの学習過程で作成されました。
 
-### `npm start`
+## 機能
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- タスクの追加
+- タスクの完了/未完了の切り替え
+- 完了したタスクの削除（計画中）
+- 残りのタスク数の表示（実装中）
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 技術スタック
 
-### `npm test`
+- **React** (v19.0.0)
+- **TypeScript** (v4.9.5)
+- **UUID** (v11.1.0) - ユニークIDの生成
+- **React Testing Library** - テスト用
+- **Create React App** - プロジェクト設定
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## プロジェクト構造
 
-### `npm run build`
+```
+my-first-react-app/
+├── public/             # 静的ファイル
+├── src/                # ソースコード
+│   ├── App.tsx         # メインコンポーネント
+│   ├── Todo.tsx        # 単一Todoアイテムコンポーネント
+│   ├── TodoList.tsx    # Todoリストコンポーネント
+│   └── index.tsx       # エントリーポイント
+├── package.json        # 依存関係
+└── tsconfig.json       # TypeScript設定
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 主要コンポーネント
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### App.tsx
+メインコンポーネント。Todoの状態管理と主要ロジックを含みます。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Todo.tsx
+単一のTodoアイテムを表示するコンポーネント。チェックボックスとテキスト表示を担当。
 
-### `npm run eject`
+### TodoList.tsx
+複数のTodoコンポーネントをマッピングして表示します。
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## TypeScriptの特徴
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+このプロジェクトでは、以下のTypeScript機能を活用しています：
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- **インターフェース定義**：Todoオブジェクトと各コンポーネントのProps
+- **ジェネリクス**：`useState<Todo[]>`でTodo配列の型指定
+- **型安全なイベント処理**：イベントハンドラの明示的な型付け
+- **オプショナルチェーン**：`todoNameRef.current?.value`で安全な値取得
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Pythonユーザーのための解説
 
-## Learn More
+### Python比較
+```typescript
+// TypeScript
+interface Todo {
+  id: string;
+  name: string;
+  completed: boolean;
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+// Python相当
+# Python
+class Todo:
+    def __init__(self, id: str, name: str, completed: bool):
+        self.id = id
+        self.name = name
+        self.completed = completed
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 状態管理比較
+```typescript
+// TypeScript/React
+const [todos, setTodos] = useState<Todo[]>([]);
+
+// Python相当（擬似コード）
+class Component:
+    def __init__(self):
+        self.todos = []
+    
+    def set_todos(self, new_todos):
+        self.todos = new_todos
+```
+
+## インストールと実行
+
+```bash
+# 依存関係のインストール
+npm install
+
+# 開発サーバー起動
+npm start
+
+# ビルド
+npm run build
+
+# テスト実行
+npm test
+```
+
+## 学習ポイント
+
+1. **型安全なReactコンポーネント**：TypeScriptでReactコンポーネントを定義する方法
+2. **Reactフック**：useState, useRefの適切な使用方法
+3. **コンポーネント間の通信**：Props経由でデータと関数を渡す方法
+4. **イミュータブルな状態更新**：スプレッド構文を使った配列更新
+
+## 今後の拡張予定
+
+- 完了したタスクの削除機能の実装
+- ローカルストレージを使ったデータ永続化
+- タスクの優先度設定
+- カテゴリ分け機能
+- ドラッグ&ドロップによる並べ替え
+
+## セットアップと開発のヒント
+
+Pythonバックグラウンドを持つ開発者向けのヒント：
+
+1. **環境変数**：`.env`ファイルはPythonの環境変数設定に似ています
+2. **コンポーネント**：ReactコンポーネントはPythonのクラス定義に似た考え方
+3. **Props**：関数の引数に似ていますが、分割代入で受け取るのが一般的
+4. **型定義**：PythonのType Hintsよりも厳格で、コンパイル時にチェックされます
+
+---
+
+*このプロジェクトはTypeScriptとReactの学習過程で作成されました。フィードバックや提案は歓迎します！*
